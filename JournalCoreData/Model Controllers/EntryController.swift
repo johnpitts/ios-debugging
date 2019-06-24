@@ -9,9 +9,14 @@
 import Foundation
 import CoreData
 
-let baseURL = URL(string: "https://journal-syncing.firebaseio.com/")!
+let baseURL = URL(string: "https://journal-2nd-try.firebaseio.com/")!
 
 class EntryController {
+    
+    //NAV: error #3 the entries don't load from server, actually they still don't even after writing this code.
+    init() {
+        fetchEntriesFromServer()
+    }
     
     func createEntry(with title: String, bodyText: String, mood: String) {
         
@@ -44,7 +49,7 @@ class EntryController {
     private func put(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
         
         let identifier = entry.identifier ?? UUID().uuidString
-        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathComponent("json")
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
@@ -136,7 +141,9 @@ class EntryController {
         guard let identifier = identifier else { return nil }
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identfier == %@", identifier)
+        
+        // identifier was spelled wrong here.
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
         
         var result: Entry? = nil
         do {

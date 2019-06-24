@@ -110,7 +110,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         case "ViewEntry":
             guard let destinationVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow else { return }
-            
+            //destinationVC.entryController = entryController
             destinationVC.entry = fetchedResultsController.object(at: indexPath)
             
         default:
@@ -121,6 +121,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     // MARK: - Properties
     
     let entryController = EntryController()
+    var entry: Entry?
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -130,8 +131,10 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
         
         frc.delegate = self
-        
-        try! frc.performFetch()
+
+            try! frc.performFetch()
+
+
         
         return frc
     }()

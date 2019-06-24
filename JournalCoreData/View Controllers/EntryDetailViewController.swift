@@ -41,12 +41,17 @@ class EntryDetailViewController: UIViewController {
     }
     
     private func updateViews() {
+        
+        // Error 1 solution: Outlets can't load 
+        guard isViewLoaded else { return }
         guard let entry = entry else {
                 title = "Create Entry"
                 return
         }
         
         title = entry.title
+        
+        //NAV: Error 1--> here says entry.title = nil.  go back to Prepare for Segue to find error w "title"
         titleTextField.text = entry.title
         bodyTextView.text = entry.bodyText
         
