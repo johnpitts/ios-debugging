@@ -18,7 +18,9 @@ extension Entry: Encodable {
         try container.encode(bodyText, forKey: .bodyText)
         try container.encode(mood, forKey: .mood)
         try container.encode(timestamp, forKey: .timestamp)
-        try container.encode(timestamp, forKey: .identifier)
+        
+        // NAV: Error 4--> .identifier key was grabbbing timestamp (a number) and writing it to Firebase in the identifier (a string) register
+        try container.encode(identifier, forKey: .identifier)
     }
     
     enum CodingKeys: String, CodingKey {
